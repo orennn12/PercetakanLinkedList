@@ -1,4 +1,6 @@
 #include <iostream>
+#include <conio.h>
+#include "./interface.cpp"
 using namespace std;
 
 struct printing_item
@@ -11,6 +13,16 @@ struct printing_item
 
 // Di kerjakan oleh Hipni
 void tambah_item(printing_item*& head, string nm, string desk, int stok){
+
+    printing_item* cek = head;
+    while (cek != nullptr) {
+        if (cek->nama == nm) {
+            cout << "\033[1;31m[!] Item dengan nama '" << nm << "' sudah ada!\033[1;0m\n";
+            return;
+        }
+        cek = cek->selanjutnya;
+    }
+
     printing_item* itemBaru = new printing_item{nm, desk, stok, nullptr};
 
     if(head == nullptr) {
@@ -28,8 +40,18 @@ void tambah_item(printing_item*& head, string nm, string desk, int stok){
 
 // Di kerjakan oleh Dzaki
 void sisipkan_item(printing_item*& head, string nm, string desk, int stok){
-printing_item* hanyar = new printing_item{nm, desk, stok, head};
-head = hanyar;
+
+    printing_item* cek = head;
+    while (cek != nullptr) {
+        if (cek->nama == nm) {
+            cout << "\033[1;31m[!] Item dengan nama '" << nm << "' sudah ada!\033[1;0m\n";
+            return;
+        }
+        cek = cek->selanjutnya;
+    }
+
+    printing_item* hanyar = new printing_item{nm, desk, stok, head};
+    head = hanyar;
 }
 
 // Di kerjakan oleh Dzaki
@@ -67,14 +89,15 @@ void update_item(printing_item* head, string nm){
                 default:
                 cout << "Pernyataan tidak valid!";
             }  
-            wahini = wahini->selanjutnya;
+            return;
         }
+        wahini = wahini->selanjutnya;
     }
     cout << "Item dengan nama" << nm << "tidak ditemukan\n";
 }
 
 // Dikerjakan oleh Rio
-void hapus_item(printing_item* head, string nm){
+void hapus_item(printing_item*& head, string nm){
     if (head == nullptr) {
         cout << "Daftar Kosong." << endl;
         return;
@@ -116,6 +139,7 @@ void tampilkan_item(printing_item* head){
     printing_item* temp = head;
     int nomor = 1;
     while(temp != nullptr) {
+        if(nomor == 1) cout << "----------------------------------" << endl;
         cout << "Invetaris Item #" << nomor << " :" << endl; nomor++;
         cout << "\tNama \t:" << temp->nama << endl;
         cout << "\tDesk \t:" << temp->deskripsi << endl;
@@ -126,15 +150,66 @@ void tampilkan_item(printing_item* head){
 }
 
 int main(){
-    
     printing_item* inventaris = nullptr;
 
-    tambah_item(inventaris, "A4 Sinar Dunia", "Kertas A4 Sinar Dunia 80gsm", 100);
-    tambah_item(inventaris, "A4 PaperOne", "Kertas A4 PaperOne 70gsm", 200);
-    
-    tampilkan_item(inventaris);
-    
-    hapus_item(inventaris, "A4 PaperOne");
-    tampilkan_item(inventaris);
-    return 0;
+    string nama, deskripsi;
+    int stok, pilihan = 1;
+
+    while (pilihan != 0)
+    {
+        menu();
+
+        cout << "\033[1;37mMasukkan pilihan Anda: \033[1;0m";
+        cin >> pilihan;
+        switch (pilihan)
+        {
+        case 0:
+            cout << "\033[1;31mTerimakasih dan sampai jumpa ^-^\033[1;0m" << endl;
+            break;
+        case 1:
+            system("cls");
+            cout << "\033[1;32m=== Silahkan masukkan barang yang ingin anda tambah ===\033[1;0m" << endl;
+            printNm(); cin.ignore(); getline(cin, nama);
+            printDesk(); getline(cin, deskripsi);
+            printStok(); cin >> stok;
+            tambah_item(inventaris, nama, deskripsi, stok);
+            cout << "\033[1;32mBarang berhasil ditambahkan!\033[1;0m" << endl; 
+            cout << "\n\n\nTekan apa saja untuk keluar..."; getch();
+            break;
+        case 2:
+            system("cls");
+            cout << "\033[1;32m=== Silahkan masukkan barang yang ingin sisipkan ===\033[1;0m" << endl;
+            printNm(); cin.ignore(); getline(cin, nama);
+            printDesk(); getline(cin, deskripsi);
+            printStok(); cin >> stok;
+            sisipkan_item(inventaris, nama, deskripsi, stok);
+            cout << "\033[1;32mBarang berhasil disisipkan!\033[1;0m" << endl; 
+            cout << "\n\n\nTekan apa saja untuk keluar..."; getch();
+            break;
+        case 3:
+            system("cls");
+            cout << "\033[1;32m=== Silahkan masukkan nama barang yang ingin anda update ===\033[1;0m" << endl;
+            printNm(); cin.ignore(); getline(cin, nama);
+            update_item(inventaris, nama);
+            cout << "\033[1;32mBarang berhasil diupdate!\033[1;0m" << endl; 
+            cout << "\n\n\nTekan apa saja untuk keluar..."; getch();
+            break;
+        case 4:
+            system("cls");
+            cout << "\033[1;32m=== Silahkan masukkan nama barang yang ingin anda hapus ===\033[1;0m" << endl;
+            printNm(); cin.ignore(); getline(cin, nama);
+            hapus_item(inventaris, nama);
+            cout << "\033[1;31mBarang berhasil hapus!\033[1;0m" << endl; 
+            cout << "\n\n\nTekan apa saja untuk keluar..."; getch();
+            break;
+        case 5:
+            system("cls");
+            cout << "\033[1;32m=== Berikut daftar barang yang ada ===\n\033[1;0m" << endl;
+            tampilkan_item(inventaris); 
+            cout << "\n\n\nTekan apa saja untuk keluar..."; getch();
+        default:
+            cout << "\033[1;31mPilihan tidak valid! Silakan coba lagi.\033[1;0m" << endl;
+            break;
+        }
+    }
 }
