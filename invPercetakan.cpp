@@ -15,6 +15,8 @@ void tambah_item(printing_item* head, string nm, string desk, int stok){
 
 // Di kerjakan oleh Dzaki
 void sisipkan_item(printing_item* head, string nm, string desk, int stok){
+printing_item* hanyar = new printing_item{nm, desk, stok, head};
+head = hanyar;
 }
 
 // Di kerjakan oleh Dzaki
