@@ -1,4 +1,4 @@
-# DeskripsiAdd
+# Deskripsi
 Ini merupakan sebuah repository untuk memenuhi tugas yang diberikan oleh Pak Ade dalam mata kuliah basis data, Dalam hal ini kami membuat sebuah sistem inventaris yang berbasis linked list singly. Kami beranggotakan:
 
 1. [Hipni](https://github.com/Haippp) (C030324071)
