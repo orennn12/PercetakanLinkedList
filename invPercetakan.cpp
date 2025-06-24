@@ -10,13 +10,24 @@ struct printing_item
 };
 
 // Di kerjakan oleh Hipni
-void tambah_item(printing_item* head, string nm, string desk, int stok){
+void tambah_item(printing_item*& head, string nm, string desk, int stok){
+    printing_item* itemBaru = new printing_item{nm, desk, stok, nullptr};
+
+    if(head == nullptr) {
+        head = itemBaru;
+        return;
+    } 
+
+    printing_item* temp = head;
+    while(temp->selanjutnya != nullptr) {
+        temp = temp->selanjutnya;
+    }
+
+    temp->selanjutnya = itemBaru;
 }
 
 // Di kerjakan oleh Dzaki
 void sisipkan_item(printing_item* head, string nm, string desk, int stok){
-printing_item* hanyar = new printing_item{nm, desk, stok, head};
-head = hanyar;
 }
 
 // Di kerjakan oleh Dzaki
@@ -32,7 +43,7 @@ void tampilkan_item(printing_item* head){
 }
 
 int main(){
-    cout << "Hello World" << endl;
-
+    printing_item* inventaris = nullptr;
+    tambah_item(inventaris, "Buku A", "Deskripsi Buku A", 10);
     return 0;
 }
