@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-
 struct printing_item
 {
     string nama;
@@ -35,10 +34,76 @@ head = hanyar;
 
 // Di kerjakan oleh Dzaki
 void update_item(printing_item* head, string nm){
+    printing_item* wahini = head;
+
+    while(wahini != nullptr){
+        if(wahini->nama == nm){
+            int menu_pilih;
+            cout << "Item yang anda cari ditemukan, silahkan ubah data\n";
+            cout << "1. Ubah Nama\n";
+            cout << "2. Ubah Stok\n";
+            cout << "3. Ubah Deskripsi\n";
+            cout << "Pilih Opsi: ";
+            cin >> menu_pilih;
+            cin.ignore();
+
+            switch(menu_pilih){
+                case 1:
+                cout << "Masukan nama baru: ";
+                getline(cin, wahini->nama);
+                cout << "\nNama berhasil diganti";
+                break;
+                case 2:
+                cout << "Masukan stok baru: ";
+                cin >> wahini->stok;
+                cout << "\nStok berhasil diganti";
+                break;
+                case 3:
+                cout << "Masukan deskripsi baru: ";
+                getline(cin, wahini->deskripsi);
+                cout << "\nDeskripsi berhasil diganti";
+                break;
+
+                default:
+                cout << "Pernyataan tidak valid!";
+            }  
+            wahini = wahini->selanjutnya;
+        }
+    }
+    cout << "Item dengan nama" << nm << "tidak ditemukan\n";
 }
 
 // Dikerjakan oleh Rio
 void hapus_item(printing_item* head, string nm){
+    if (head == nullptr) {
+        cout << "Daftar Kosong." << endl;
+        return;
+    }
+
+    printing_item* temp = head;
+    if (temp->nama == nm){
+        head = temp->selanjutnya;
+        delete temp;
+        cout << "Item Dihapus" << endl;
+        return;
+    }
+
+    printing_item* sebelum = temp;
+    temp = temp->selanjutnya;
+
+    while (temp != nullptr){
+        if (temp->nama == nm){
+            sebelum->selanjutnya = temp->selanjutnya;
+            delete temp;
+            cout << "\n[!] Item Dihapus\n" << endl;
+            return;
+        }
+        sebelum = temp;
+        temp = temp->selanjutnya;
+    }
+
+    cout << "Item Tidak Ada" << endl;
+
 }
 
 // Di kerjakan oleh Hipni
@@ -61,11 +126,15 @@ void tampilkan_item(printing_item* head){
 }
 
 int main(){
+    
     printing_item* inventaris = nullptr;
 
     tambah_item(inventaris, "A4 Sinar Dunia", "Kertas A4 Sinar Dunia 80gsm", 100);
     tambah_item(inventaris, "A4 PaperOne", "Kertas A4 PaperOne 70gsm", 200);
     
+    tampilkan_item(inventaris);
+    
+    hapus_item(inventaris, "A4 PaperOne");
     tampilkan_item(inventaris);
     return 0;
 }
