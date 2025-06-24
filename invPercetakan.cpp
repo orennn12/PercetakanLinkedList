@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-
 struct printing_item
 {
     string nama;
@@ -43,10 +42,29 @@ void hapus_item(printing_item* head, string nm){
 
 // Di kerjakan oleh Hipni
 void tampilkan_item(printing_item* head){
+    if(head == nullptr) {
+        cout << "Tidak ada item dalam inventaris." << endl;
+        return;
+    }
+
+    printing_item* temp = head;
+    int nomor = 1;
+    while(temp != nullptr) {
+        cout << "Invetaris Item #" << nomor << " :" << endl; nomor++;
+        cout << "\tNama \t:" << temp->nama << endl;
+        cout << "\tDesk \t:" << temp->deskripsi << endl;
+        cout << "\tStok \t:" << temp->stok << endl;
+        cout << "----------------------------------" << endl;
+        temp = temp->selanjutnya;
+    }
 }
 
 int main(){
     printing_item* inventaris = nullptr;
-    tambah_item(inventaris, "Buku A", "Deskripsi Buku A", 10);
+
+    tambah_item(inventaris, "A4 Sinar Dunia", "Kertas A4 Sinar Dunia 80gsm", 100);
+    tambah_item(inventaris, "A4 PaperOne", "Kertas A4 PaperOne 70gsm", 200);
+    
+    tampilkan_item(inventaris);
     return 0;
 }
